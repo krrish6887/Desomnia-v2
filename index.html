@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<system.webServer>
+    <handlers>
+        <remove name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" />
+        <remove name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" />
+        <remove name="ExtensionlessUrlHandler-Integrated-4.0" />
+        <add name="ExtensionlessUrlHandler-ISAPI-4.0_32bit" path="*."
+            verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS" modules="IsapiModule"
+            scriptProcessor="%windir%\Microsoft.NET\Framework\v4.0.30319\aspnet_isapi.dll"
+            preCondition="classicMode,runtimeVersionv4.0,bitness32" responseBufferLimit="0" />
+        <add name="ExtensionlessUrlHandler-ISAPI-4.0_64bit" path="*."
+            verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS" modules="IsapiModule"
+            scriptProcessor="%windir%\Microsoft.NET\Framework64\v4.0.30319\aspnet_isapi.dll"
+            preCondition="classicMode,runtimeVersionv4.0,bitness64" responseBufferLimit="0" />
+        <add name="ExtensionlessUrlHandler-Integrated-4.0" path="*." verb="GET,HEAD,POST,DEBUG,PUT,DELETE,PATCH,OPTIONS"
+            type="System.Web.Handlers.TransferRequestHandler" preCondition="integratedMode,runtimeVersionv4.0" />
+    </handlers>
+</system.webServer>
+
+<head>
+    <link rel="preload" as="font" href="/static/fonts/ABCSocialVariable-Trial.ttf">
+    <link rel="preload" as="font" href="/static/fonts/ABCSocialVariable-Trial.woff">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desomnia | Sleep 2.5x faster</title>
+    <link rel="shortcut icon" href="static/images/somniaFavi.png" type="image/x-icon">
+    <link rel="stylesheet" href="static/stylesheets/index.css">
+    <script>
+        if (CSS && 'paintWorklet' in CSS) CSS.paintWorklet.addModule('https://unpkg.com/smooth-corners')
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="scripts/nosleep.js"></script>
+    <script src="scripts/play.js"></script>
+</head>
+
+<body id="body" data-component="Body">
+    <script>
+        document.getElementById("body").style.backgroundImage = 'url("static/images/stars.svg")';
+    </script>
+    <div id="container" class="disappear" data-component="FormContainer">
+        <p style="color: grey; padding: 0; text-align: left; margin: 18px;">Version 1.0</p>
+        <h2 data-component="Heading">Welcome to <b>Desomnia</b></h2>
+        <p id="index-desc">
+            Choose between an 10 and 20 minute session.<br>
+            <b>Phone will switch off after the session ends.</b>
+        </p>
+        <div class="buttons" class="disappear" data-component="ButtonCont">
+            <div class="sq_btn disappear" role="button" onclick="play(0)" data-component="TenBtn">
+                10 min
+            </div>
+            <div class="sq_btn disappear" role="button" onclick="play(1)" data-component="TwentyBtn">
+                20 min
+            </div>
+        </div>
+    </div>
+    <div class="help disappear" id="helpclick">
+        <div class="help-button"></div>
+        <div class="help-inner">
+            <b>What is Desomnia?</b>
+
+            <p>Desomnia is a sleep app developed by Harsh Kumar. <br><br>Click start and follow the instructions. The app will project a circle on the ceiling that slowly expands, and you should synchronize your breathing with it. Once the timer stops, the app will automatically close and go to sleep. <br><br><!-- Visit <a href="https://somnia.com" style="color: black;">somnia.com</a> for more information. --></p>
+        </div>
+        <div class="slider"></div>
+    </div>
+    <div class="nigga disappear"></div>
+    <script>
+        $(document).ready(function() {
+        var up = false;
+        $(".nigga").css("display", "none");
+            $("#helpclick, .nigga").click(function() {
+            if (!up) {
+                $("#helpclick").animate({bottom: "0px"}, "fast");
+                $(".help-inner").css("background-color", "white");
+                $(".nigga").css("display", "block");
+                up = true;
+            } 
+            else {
+                $("#helpclick").animate({bottom: "-200px"}, "fast");
+                $(".help-inner").css("background-color", "");
+                $(".nigga").css("display", "none");
+                up = false;     
+            }
+            });
+        }); 
+    </script>
+    <div class="instructions" id="instructions" data-component="Instructions">
+        <h1 id="alternating" data-component="InstructionHeading"></h1>
+    </div>
+    <div id="circle" data-component="Circle"></div>
+    <div class="menu" id="menu" data-component="Menu">
+        <div class="left" data-component="MenuLeft">
+            <img src="static/images/somnialogogray.svg" alt="" srcset="" id="logoImg" data-component="MenuLeftImg">
+        </div>
+        <div class="right" data-component="MenuRight">
+            <div class="sqq_btn outline" role="button" onclick="restart()" data-component="RestartBtn">
+                <img src="static/images/re.svg" alt="" srcset="" data-component="RestartIco">
+            </div>
+            <div class="sqq_btn" role="button" onclick="endAll()" data-component="StopBtn">
+                <img src="static/images/halt.svg" alt="" srcset="" data-component="StopIco">
+            </div>
+        </div>
+    </div>
+
+    <audio tabindex="0" id="music" preload="auto" loop data-component="Audio">
+        <source src="static/audio/onlyup.mp3" data-component="AudioSrc">
+    </audio>
+<!--     <audio tabindex="0" id="music" preload="auto" loop data-component="Audio">
+        <source src="static/audio/hoom_web_sample_white_noise.mp3" data-component="AudioSrc">
+    </audio> -->
+    <img src="static/images/outicircles.svg" alt="" srcset="" id="outC" data-component="OutC">
+    <!-- <img src="static/images/stars.svg" alt="" srcset="" id="bg_stars" class="disappear"> -->
+</body>
+<script src="scripts/play.js"></script>
+
+</html>
